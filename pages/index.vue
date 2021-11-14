@@ -25,29 +25,29 @@
         data() {
             return {
                 form: {
-                    phoneNumber: ""
+                    phoneNumber: '',
                 },
                 rules: {
                     phoneNumber: [
-                        { required: true, message: 'Vui lòng nhập số điện thoại', trigger: 'blur'}
-                    ]
-                }
-            }
+                        { required: true, message: 'Vui lòng nhập số điện thoại', trigger: 'blur' },
+                    ],
+                },
+            };
         },
 
         methods: {
             handleLogin() {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
-                        console.log("Login success");
-                        this.$router.push("/home");
+                        console.log('Login success');
+                        this.$router.push('/home');
                     } else {
-                        this.$message.error("Vui lòng nhập đầy đủ thông tin")
+                        this.$message.error('Vui lòng nhập đầy đủ thông tin');
                     }
-                })
-            }
-        }
-    }
+                });
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

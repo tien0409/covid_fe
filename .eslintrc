@@ -1,5 +1,6 @@
 {
   "extends": [
+      "airbnb-base",
     "plugin:vue/recommended"
   ],
   "parserOptions": {
@@ -15,7 +16,7 @@
     }
   },
   "rules": {
-      "linebreak-style": "off",
+  "linebreak-style": "off",
     "indent": ["error", 4, {
       "SwitchCase": 1
     }],
