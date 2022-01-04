@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="text-center uppercase text-2xl font-bold">
+        <h2 class="text-center uppercase my-8 text-2xl font-bold">
             Thông tin khai báo y tế
         </h2>
         <p class="text-red-600 text-center my-4">
@@ -228,7 +228,6 @@
                 </el-col>
                 <el-col :span="11">
                     <el-form-item prop="destinationProvince" label="Tỉnh">
-                        " label="Tỉnh">
                         <el-select
                             v-if="isVietNameseDestination"
                             v-model="form.destinationProvince"
@@ -313,47 +312,26 @@
                 </el-col>
             </el-form-item>
 
-            <el-form-item>
-                <div class="flex">
-                    <h3 style="color: #606266" class="mr-8">
-                        Trong vòng 14 ngày qua, Anh/Chị có thấy xuất hiện ít nhất 1 trong các dấu hiệu: sốt, ho, khó thở, viêm phổi, đau họng, mệt mỏi không?
-                    </h3>
-                    <el-radio-group v-model="form.hasSymptom">
-                        <el-radio border :label="0">
-                            Không
-                        </el-radio>
-                        <el-radio border :label="1">
-                            Có
-                        </el-radio>
-                    </el-radio-group>
-                </div>
+            <el-form-item label="Đối tượng nhiễm bệnh">
+                <InfectedSubject
+                    :infected-subject="form.infectedSubject"
+                    :exposed-object="form.exposedObject"
+                    :has-symptom="form.hasSymptom"
+                    @onChangeInf="form.infectedSubject=$event"
+                    @onChangeSymptom="form.hasSymptom=!form.hasSymptom"
+                    @onAdd="addExposedObject"
+                    @onRemove="removeExposedObject"
+                />
             </el-form-item>
 
-            <el-form-item prop="injectedVaccine">
-                <div class="flex">
-                    <h3 style="color: #606266" class="mr-8">
-                        Đã tiêm vaccine ?
-                    </h3>
-                    <el-radio-group v-model="form.injectedVaccine">
-                        <el-radio border :label="0">
-                            Chưa tiêm
-                        </el-radio>
-                        <el-radio border :label="1">
-                            Đã tiêm
-                        </el-radio>
-                    </el-radio-group>
-                </div>
-
-                <el-radio-group v-if="isInjectedVaccine" v-model="form.vaccine" class="mt-2">
-                    <el-radio
-                        v-for="_vac in vaccine"
-                        :key="_vac.value"
-                        border
-                        :label="_vac.value"
-                    >
-                        {{ _vac.label }}
-                    </el-radio>
-                </el-radio-group>
+            <el-form-item prop="isInjectedVaccine">
+                <InjectedVaccine
+                    :is-injected-vaccine="form.isInjectedVaccine"
+                    :injected-vaccine="form.injectedVaccine"
+                    @onChangeIsInjected="form.isInjectedVaccine=!form.isInjectedVaccine"
+                    @onAdd="addInjectedVaccine"
+                    @onRemove="removeInjectedVaccine"
+                />
             </el-form-item>
 
             <div class="text-center mt-4">
@@ -370,8 +348,13 @@
 <script>
     import { validPhone, validEmail } from '@/utils/form';
     import { getDistricts, getWards } from '@/api/external/address';
+    import { NO } from '@/constants/infectedSubject';
+    import InfectedSubject from './shared/InfectedSubject.vue';
+    import InjectedVaccine from './shared/InjectedVaccine.vue';
 
     export default {
+        components: { InfectedSubject, InjectedVaccine },
+
         props: {
             provinces: {
                 type: Array,
@@ -463,7 +446,7 @@
                     destinationLocation: [
                         { required: true, message: 'Vui lòng chọn quốc gia đã đến', trigger: 'blur' },
                     ],
-                    destionationProvince: [
+                    destinationProvince: [
                         { required: true, message: 'Vui lòng chọn tỉnh đã đến', trigger: 'blur' },
                     ],
                 },
@@ -480,8 +463,11 @@
                     address: '',
                     phoneNumber: '',
                     email: '',
-                    hasSymptom: 0,
-                    injectedVaccine: 0,
+                    hasSymptom: false,
+                    isInjectedVaccine: false,
+                    infectedSubject: NO,
+                    exposedObject: [],
+                    injectedVaccine: [],
                     vaccine: '',
                     vehicles: '',
                     departureDay: '',
@@ -511,10 +497,6 @@
                 ];
             },
 
-            isInjectedVaccine() {
-                return this.form.injectedVaccine === 1;
-            },
-
             isOtherVehicles() {
                 return this.form.vehicles === 'other';
             },
@@ -539,6 +521,42 @@
                 this.form.ward = '';
                 const { wards } = await getWards(districtCode);
                 this.wards = wards;
+            },
+
+            addExposedObject() {
+                const _objLast = this.form.exposedObject[this.form.exposedObject.length - 1];
+                if (_objLast && (!_objLast.id || !_objLast.address || !_objLast.timeMeet)) {
+                    this.$message.error('Vui lòng nhập đầy đủ thông tin người tiếp xúc đang nhập');
+                    return;
+                }
+
+                this.form.exposedObject.push({
+                    id: '',
+                    address: '',
+                    timeMeet: '',
+                });
+            },
+
+            removeExposedObject(index) {
+                this.form.exposedObject.splice(index, 1);
+            },
+
+            addInjectedVaccine() {
+                const _vaccineLast = this.form.injectedVaccine[this.form.injectedVaccine.length - 1];
+                if (_vaccineLast && (!_vaccineLast.id || !_vaccineLast.vaccineName || !_vaccineLast.timeInjected)) {
+                    this.$message.error('Vui lòng nhập đầy đủ thông tin vaccine đã tiêm đang nhập');
+                    return;
+                }
+
+                this.form.injectedVaccine.push({
+                    id: _vaccineLast?.id ? _vaccineLast.id + 1 : 1,
+                    vaccineName: '',
+                    timeInjected: '',
+                });
+            },
+
+            removeInjectedVaccine(index) {
+                this.form.injectedVaccine.splice(index, 1);
             },
         },
     };

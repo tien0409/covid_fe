@@ -1,7 +1,7 @@
 <template>
     <div>
         <Header />
-        <div class="container mx-auto mt-8">
+        <div class="container mx-auto py-8">
             <nuxt />
         </div>
     </div>

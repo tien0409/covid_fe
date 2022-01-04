@@ -7,15 +7,17 @@
             ref="formRef"
             :rules="rules"
             :model="form"
-            label-width="120px"
         >
             <el-form-item>
-                <el-col :span="12">
+                <el-col :span="11">
                     <el-form-item prop="name" label="Họ tên">
                         <el-input v-model="form.name" />
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="2">
+&nbsp;
+                </el-col>
+                <el-col :span="11">
                     <el-form-item prop="id" label="CCCD/CMND">
                         <el-input v-model="form.id" />
                     </el-form-item>
@@ -32,19 +34,27 @@
                         />
                     </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="1">
+&nbsp;
+                </el-col>
+                <el-col :span="6">
                     <el-form-item prop="gender" label="Giới tính">
-                        <el-radio-group v-model="form.gender">
-                            <el-radio
+                        <el-select
+                            v-model="form.gender"
+                            class="w-full"
+                            placeholder="Chọn"
+                        >
+                            <el-option
                                 v-for="_gender in genders"
-                                :key="_gender.label"
-                                border
-                                :label="_gender.label"
-                            >
-                                {{ _gender.value }}
-                            </el-radio>
-                        </el-radio-group>
+                                :key="_gender.value"
+                                :label="_gender.value"
+                                :value="_gender.label"
+                            />
+                        </el-select>
                     </el-form-item>
+                </el-col>
+                <el-col :span="1">
+&nbsp;
                 </el-col>
                 <el-col :span="8">
                     <el-form-item prop="national" label="Quốc tịch">
@@ -58,6 +68,7 @@
                     <el-form-item prop="province" label="Tỉnh thành">
                         <el-select
                             v-model="form.province"
+                            class="w-full"
                             filterable
                             placeholder="Chọn"
                             @change="handleChangeProvince"
@@ -71,7 +82,10 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="8">
+                <el-col :span="1">
+&nbsp;
+                </el-col>
+                <el-col :span="6">
                     <el-form-item prop="district" label="Quận / Huyện">
                         <el-select
                             v-model="form.district"
@@ -87,6 +101,9 @@
                             />
                         </el-select>
                     </el-form-item>
+                </el-col>
+                <el-col :span="1">
+&nbsp;
                 </el-col>
                 <el-col :span="8">
                     <el-form-item prop="ward" label="Phường / Xã">
@@ -116,48 +133,41 @@
             </el-form-item>
 
             <el-form-item>
-                <el-col :span="12">
+                <el-col :span="11">
                     <el-form-item prop="phoneNumber" label="Điện thoại">
                         <el-input v-model="form.phoneNumber" />
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="2">
+&nbsp;
+                </el-col>
+                <el-col :span="11">
                     <el-form-item prop="email" label="Email">
                         <el-input v-model="form.email" type="email" />
                     </el-form-item>
                 </el-col>
             </el-form-item>
 
-            <el-form-item>
-                <div class="flex">
-                    <h3 style="color: #606266" class="mr-8">
-                        Trong vòng 14 ngày qua, Anh/Chị có thấy xuất hiện ít nhất 1 trong các dấu hiệu: sốt, ho, khó thở, viêm phổi, đau họng, mệt mỏi không?
-                    </h3>
-                    <el-radio-group v-model="form.hasSymptom">
-                        <el-radio border :label="0">
-                            Không
-                        </el-radio>
-                        <el-radio border :label="1">
-                            Có
-                        </el-radio>
-                    </el-radio-group>
-                </div>
+            <el-form-item label="Đối tượng nhiễm bệnh">
+                <InfectedSubject
+                    :infected-subject="form.infectedSubject"
+                    :exposed-object="form.exposedObject"
+                    :has-symptom="form.hasSymptom"
+                    @onChangeInf="form.infectedSubject=$event"
+                    @onChangeSymptom="form.hasSymptom=!form.hasSymptom"
+                    @onAdd="addExposedObject"
+                    @onRemove="removeExposedObject"
+                />
             </el-form-item>
 
-            <el-form-item prop="injectedVaccine">
-                <div class="flex">
-                    <h3 style="color: #606266" class="mr-8">
-                        Đã tiêm vaccine ?
-                    </h3>
-                    <el-radio-group v-model="form.injectedVaccine">
-                        <el-radio border :label="0">
-                            Chưa tiêm
-                        </el-radio>
-                        <el-radio border :label="1">
-                            Đã tiêm
-                        </el-radio>
-                    </el-radio-group>
-                </div>
+            <el-form-item prop="isInjectedVaccine">
+                <InjectedVaccine
+                    :is-injected-vaccine="form.isInjectedVaccine"
+                    :injected-vaccine="form.injectedVaccine"
+                    @onChangeIsInjected="form.isInjectedVaccine=!form.isInjectedVaccine"
+                    @onAdd="addInjectedVaccine"
+                    @onRemove="removeInjectedVaccine"
+                />
             </el-form-item>
 
             <div class="text-center mt-4">
@@ -174,8 +184,13 @@
 <script>
     import { getDistricts, getWards } from '@/api/external/address';
     import { validPhone, validEmail } from '@/utils/form';
+    import { NO } from '@/constants/infectedSubject';
+    import InfectedSubject from './shared/InfectedSubject.vue';
+    import InjectedVaccine from './shared/InjectedVaccine.vue';
 
     export default {
+        components: { InfectedSubject, InjectedVaccine },
+
         props: {
             provinces: {
                 type: Array,
@@ -223,7 +238,7 @@
                         { required: true, message: 'vui lòng nhập thông tin chi tiết nơi ở', trigger: 'blur' },
                         { validator: validEmail, message: 'Email không đúng định dạng', trigger: 'blur' },
                     ],
-                    injectedVaccine: [
+                    isInjectedVaccine: [
                         { required: true, message: 'vui lòng chọn', trigger: 'blur' },
                     ],
                 },
@@ -239,8 +254,11 @@
                     address: '',
                     phoneNumber: '',
                     email: '',
-                    hasSymptom: 0,
-                    injectedVaccine: 0,
+                    hasSymptom: false,
+                    isInjectedVaccine: false,
+                    infectedSubject: NO,
+                    exposedObject: [],
+                    injectedVaccine: [],
                 },
             };
         },
@@ -266,6 +284,42 @@
                 this.form.ward = '';
                 const { wards } = await getWards(districtCode);
                 this.wards = wards;
+            },
+
+            addExposedObject() {
+                const _objLast = this.form.exposedObject[this.form.exposedObject.length - 1];
+                if (_objLast && (!_objLast.id || !_objLast.address || !_objLast.timeMeet)) {
+                    this.$message.error('Vui lòng nhập đầy đủ thông tin người tiếp xúc đang nhập');
+                    return;
+                }
+
+                this.form.exposedObject.push({
+                    id: '',
+                    address: '',
+                    timeMeet: '',
+                });
+            },
+
+            removeExposedObject(index) {
+                this.form.exposedObject.splice(index, 1);
+            },
+
+            addInjectedVaccine() {
+                const _vaccineLast = this.form.injectedVaccine[this.form.injectedVaccine.length - 1];
+                if (_vaccineLast && (!_vaccineLast.id || !_vaccineLast.vaccineName || !_vaccineLast.timeInjected)) {
+                    this.$message.error('Vui lòng nhập đầy đủ thông tin vaccine đã tiêm đang nhập');
+                    return;
+                }
+
+                this.form.injectedVaccine.push({
+                    id: _vaccineLast?.id ? _vaccineLast.id + 1 : 1,
+                    vaccineName: '',
+                    timeInjected: '',
+                });
+            },
+
+            removeInjectedVaccine(index) {
+                this.form.injectedVaccine.splice(index, 1);
             },
         },
     };
