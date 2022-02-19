@@ -35,10 +35,10 @@
                     <el-col :span="5">
                         <el-select v-model="_obj.vaccineName">
                             <el-option
-                                v-for="_vaccine in VACCINES"
-                                :key="_vaccine.label"
-                                :value="_vaccine.value"
-                                :label="_vaccine.label"
+                                v-for="_vaccine in vaccines"
+                                :key="_vaccine.MaVaccine"
+                                :value="_vaccine.MaVaccine"
+                                :label="_vaccine.TenVaccine"
                             />
                         </el-select>
                     </el-col>
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import VACCINES from '@/constants/vaccine';
+    import { getVaccines } from '@/api/default';
 
     export default {
         props: {
@@ -81,8 +81,15 @@
             },
         },
 
-        data: () => ({
-            VACCINES,
-        }),
+        data() {
+            return {
+                vaccines: [],
+            };
+        },
+
+        async mounted() {
+            const { data: { vaccines } } = await getVaccines();
+            this.vaccines = vaccines;
+        },
     };
 </script>

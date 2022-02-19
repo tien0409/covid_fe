@@ -368,10 +368,6 @@
                 type: Array,
                 required: true,
             },
-            vaccine: {
-                type: Array,
-                required: true,
-            },
             genders: {
                 type: Array,
                 required: true,

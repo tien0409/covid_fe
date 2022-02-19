@@ -89,6 +89,7 @@
                     <el-form-item prop="district" label="Quận / Huyện">
                         <el-select
                             v-model="form.district"
+                            class="w-full"
                             filterable
                             placeholder="Chọn"
                             @change="handleChangeDistrict"
@@ -171,7 +172,7 @@
             </el-form-item>
 
             <div class="text-center mt-4">
-                <el-button native-type="submit" type="primary">
+                <el-button native-type="submit" type="primary" @click="submitForm">
                     <span class="px-4">
                         Gửi tờ khai
                     </span>
@@ -320,6 +321,9 @@
 
             removeInjectedVaccine(index) {
                 this.form.injectedVaccine.splice(index, 1);
+            },
+
+            submitForm() {
             },
         },
     };
