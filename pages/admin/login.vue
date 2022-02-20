@@ -1,10 +1,8 @@
 <template>
     <div class="w-7/12 mx-auto">
         <el-form
-            ref="form"
             :model="form"
             class="w-full login__form"
-            :rules="rules"
         >
             <h3 class="text-2xl font-semibold h-14 baloo-font">
                 Chào mừng trở lại!

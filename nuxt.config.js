@@ -19,6 +19,7 @@ export default {
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: [
         'element-ui/lib/theme-chalk/index.css',
+        '@fortawesome/fontawesome-free/css/all.css',
     ],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -35,12 +36,8 @@ export default {
     // https://go.nuxtjs.dev/eslint
         '@nuxtjs/eslint-module',
         '@nuxtjs/tailwindcss',
+        '@nuxtjs/fontawesome',
     ],
-
-    server: {
-        host: process.env.HOST || 'localhost',
-        port: process.env.PORT || '8080',
-    },
 
     axios: {
         browserBaseURL: 'http://localhost:8080',
