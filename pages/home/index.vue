@@ -20,6 +20,7 @@
                 :vehicles="vehicles"
                 :provinces="provinces"
                 :national="national"
+                :c-s-c-l="CSCL"
             />
         </el-tab-pane>
     </el-tabs>
@@ -29,7 +30,7 @@
     import MedicalFormNational from '@/components/medical-form/National.vue';
     import MedicalFormDomestic from '@/components/medical-form/Domestic.vue';
     import MedicalFormEntry from '@/components/medical-form/Entry.vue';
-    import { getProvinces } from '@/api/default';
+    import { getProvinces, getCSCL } from '@/api/default';
     import national from '@/constants/national';
     import vehicles from '@/constants/vehicles';
     import genders from '@/constants/genders';
@@ -43,9 +44,11 @@
 
         async asyncData() {
             const { data: { provinces } } = await getProvinces();
+            const { data: { CSCL } } = await getCSCL();
 
             return {
                 provinces,
+                CSCL,
             };
         },
 

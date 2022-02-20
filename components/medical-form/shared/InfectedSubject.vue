@@ -83,7 +83,7 @@
         props: {
             infectedSubject: {
                 type: [String, Number],
-                required: true,
+                default: () => (null),
             },
             exposedObject: {
                 type: Array,

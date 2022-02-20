@@ -58,7 +58,19 @@
                 </el-col>
                 <el-col :span="8">
                     <el-form-item prop="QuocTich" label="Quốc tịch">
-                        <el-input v-model="form.QuocTich" />
+                        <el-select
+                            v-model="form.QuocTich"
+                            class="w-full"
+                            filterable
+                            placeholder="Chọn"
+                        >
+                            <el-option
+                                v-for="_nation in national"
+                                :key="_nation.code"
+                                :label="_nation.name"
+                                :value="_nation.name"
+                            />
+                        </el-select>
                     </el-form-item>
                 </el-col>
             </el-form-item>
@@ -198,6 +210,10 @@
                 type: Array,
                 required: true,
             },
+            national: {
+                type: Array,
+                required: true,
+            },
         },
 
         data() {
@@ -263,6 +279,7 @@
                     infectedSubject: NO,
                     DSNguoiTX: [],
                     DSVaccineDaTiem: [],
+                    TrieuChung: [],
                 },
             };
         },
@@ -340,6 +357,7 @@
                     await createNationalForm(newForm);
                     this.$message.success('Thành công');
                 } catch (err) {
+                    console.log(err);
                     this.$message.error(err.response?.data?.message || 'Có lỗi xảy ra, Vui lòng thử lại sau');
                 }
             },

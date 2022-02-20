@@ -3,9 +3,6 @@
         <h2 class="text-center uppercase my-8 text-2xl font-bold">
             Thông tin khai báo y tế
         </h2>
-        <p class="text-red-600 text-center my-4">
-            Khuyến cáo: Khai báo thông tin sai là vi phạm pháp luật Việt Nam và có thể xử lý hình sự
-        </p>
         <el-form
             ref="formRef"
             :rules="rules"
@@ -14,9 +11,9 @@
         >
             <el-form-item required>
                 <el-col :span="11">
-                    <el-form-item prop="obj" label="Đối tượng">
+                    <el-form-item prop="DoiTuong" label="Đối tượng">
                         <el-select
-                            v-model="form.obj"
+                            v-model="form.DoiTuong"
                             class="w-full"
                             filterable
                             placeholder="Chọn"
@@ -25,7 +22,7 @@
                                 v-for="_obj in objects"
                                 :key="_obj.label"
                                 :label="_obj.label"
-                                :value="_obj.value"
+                                :value="_obj.label"
                             />
                         </el-select>
                     </el-form-item>
@@ -34,37 +31,20 @@
 &nbsp;
                 </el-col>
                 <el-col :span="11">
-                    <el-form-item prop="gate" label="Cửa khẩu">
-                        <el-select
-                            v-model="form.gate"
-                            class="w-full"
-                            filterable
-                            placeholder="Chọn"
-                        >
-                            <el-option
-                                v-for="_gate in gates"
-                                :key="_gate.label"
-                                :label="_gate.label"
-                                :value="_gate.value"
-                            />
-                        </el-select>
+                    <el-form-item label="Họ tên" prop="HoTen">
+                        <el-input v-model="form.HoTen" />
                     </el-form-item>
-                </el-col>
-            </el-form-item>
-
-            <el-form-item label="Họ tên" prop="name">
-                <el-col :span="24">
-                    <el-input v-model="form.name" />
                 </el-col>
             </el-form-item>
 
             <el-form-item>
                 <el-col :span="8">
-                    <el-form-item prop="birthDay" label="Năm sinh">
+                    <el-form-item prop="NgaySinh" label="Năm sinh">
                         <el-date-picker
-                            v-model="form.birthDay"
+                            v-model="form.NgaySinh"
                             type="date"
                             style="width: 100%;"
+                            value-format="MM-dd-yyyy"
                         />
                     </el-form-item>
                 </el-col>
@@ -72,9 +52,9 @@
 &nbsp;
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item prop="gender" label="Giới tính">
+                    <el-form-item prop="GioiTinh" label="Giới tính">
                         <el-select
-                            v-model="form.gender"
+                            v-model="form.GioiTinh"
                             class="w-full"
                             placeholder="Chọn"
                         >
@@ -91,9 +71,9 @@
 &nbsp;
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item prop="national" label="Quốc tịch">
+                    <el-form-item prop="QuocTich" label="Quốc tịch">
                         <el-select
-                            v-model="form.national"
+                            v-model="form.QuocTich"
                             class="w-full"
                             filterable
                             placeholder="Chọn"
@@ -102,19 +82,19 @@
                                 v-for="_nation in national"
                                 :key="_nation.code"
                                 :label="_nation.name"
-                                :value="_nation.code"
+                                :value="_nation.name"
                             />
                         </el-select>
                     </el-form-item>
                 </el-col>
             </el-form-item>
 
-            <el-form-item prop="id" label="CMND">
-                <el-input v-model="form.id" />
+            <el-form-item prop="CMND" label="CMND">
+                <el-input v-model="form.CMND" />
             </el-form-item>
 
-            <el-form-item prop="vehicles" label="Phương tiện đi lại">
-                <el-radio-group v-model="form.vehicles">
+            <el-form-item prop="PhuongTien" label="Phương tiện đi lại">
+                <el-radio-group v-model="form.PhuongTien">
                     <el-radio
                         v-for="_vehicle in vehicles"
                         :key="_vehicle.value"
@@ -133,11 +113,12 @@
 
             <el-form-item>
                 <el-col :span="11">
-                    <el-form-item prop="departureDay" label="Ngày khởi hành">
+                    <el-form-item prop="NgayKhoiHanh" label="Ngày khởi hành">
                         <el-date-picker
-                            v-model="form.departureDay"
+                            v-model="form.NgayKhoiHanh"
                             type="date"
                             style="width: 100%;"
+                            value-format="MM-dd-yyyy"
                         />
                     </el-form-item>
                 </el-col>
@@ -145,11 +126,12 @@
 &nbsp;
                 </el-col>
                 <el-col :span="11">
-                    <el-form-item prop="entryDay" label="Ngày nhập cảnh">
+                    <el-form-item prop="NgayNhapCanh" label="Ngày nhập cảnh">
                         <el-date-picker
-                            v-model="form.entryDay"
+                            v-model="form.NgayNhapCanh"
                             type="date"
                             style="width: 100%;"
+                            value-format="MM-dd-yyyy"
                         />
                     </el-form-item>
                 </el-col>
@@ -160,19 +142,19 @@
             </h3>
             <el-form-item>
                 <el-col :span="11">
-                    <el-form-item prop="departureLocation" label="Quốc gia/Vùng lãnh thổ">
+                    <el-form-item prop="DiaDiemQGKhoiHanh" label="Quốc gia/Vùng lãnh thổ">
                         <el-select
-                            v-model="form.departureLocation"
+                            v-model="form.DiaDiemQGKhoiHanh"
                             class="w-full"
                             placeholder="Chọn"
                             filterable
-                            @change="form.departureProvince = ''"
+                            @change="form.DiaDiemTinhKhoiHanh = ''"
                         >
                             <el-option
                                 v-for="_nation in national"
                                 :key="_nation.code"
                                 :label="_nation.name"
-                                :value="_nation.code"
+                                :value="_nation.name"
                             />
                         </el-select>
                     </el-form-item>
@@ -181,22 +163,22 @@
 &nbsp;
                 </el-col>
                 <el-col :span="11">
-                    <el-form-item prop="departureProvince" label="Tỉnh">
+                    <el-form-item prop="DiaDiemTinhKhoiHanh" label="Tỉnh">
                         <el-select
                             v-if="isVietNameseDeparture"
-                            v-model="form.departureProvince"
+                            v-model="form.DiaDiemTinhKhoiHanh"
                             class="w-full"
                             placeholder="Chọn"
                             filterable
                         >
                             <el-option
                                 v-for="_province in provinces"
-                                :key="_province.value"
-                                :label="_province.name"
-                                :value="_province.value"
+                                :key="_province.MaDonVi"
+                                :label="_province.TenDonVi"
+                                :value="_province.TenDonVi"
                             />
                         </el-select>
-                        <el-input v-else v-model="form.departureProvince" />
+                        <el-input v-else v-model="form.DiaDiemTinhKhoiHanh" />
                     </el-form-item>
                 </el-col>
             </el-form-item>
@@ -206,19 +188,19 @@
             </h3>
             <el-form-item>
                 <el-col :span="11">
-                    <el-form-item prop="destinationLocation" label="Quốc gia/Vùng lãnh thổ">
+                    <el-form-item prop="DiaDiemQGNoiDen" label="Quốc gia/Vùng lãnh thổ">
                         <el-select
-                            v-model="form.destinationLocation"
+                            v-model="form.DiaDiemQGNoiDen"
                             class="w-full"
                             placeholder="Chọn"
                             filterable
-                            @change="form.destinationProvince = ''"
+                            @change="form.DiaDiemTinhNoiDen = ''"
                         >
                             <el-option
                                 v-for="_nation in national"
                                 :key="_nation.code"
                                 :label="_nation.name"
-                                :value="_nation.code"
+                                :value="_nation.name"
                             />
                         </el-select>
                     </el-form-item>
@@ -227,22 +209,22 @@
 &nbsp;
                 </el-col>
                 <el-col :span="11">
-                    <el-form-item prop="destinationProvince" label="Tỉnh">
+                    <el-form-item prop="DiaDiemTinhNoiDen" label="Tỉnh">
                         <el-select
                             v-if="isVietNameseDestination"
-                            v-model="form.destinationProvince"
+                            v-model="form.DiaDiemTinhNoiDen"
                             class="w-full"
                             placeholder="Chọn"
                             filterable
                         >
                             <el-option
                                 v-for="_province in provinces"
-                                :key="_province.value"
-                                :label="_province.name"
-                                :value="_province.value"
+                                :key="_province.MaDonVi"
+                                :label="_province.TenDonVi"
+                                :value="_province.TenDonVi"
                             />
                         </el-select>
-                        <el-input v-else v-model="form.destinationProvince" />
+                        <el-input v-else v-model="form.DiaDiemTinhNoiDen" />
                     </el-form-item>
                 </el-col>
             </el-form-item>
@@ -252,9 +234,9 @@
             </h3>
             <el-form-item>
                 <el-col :span="8">
-                    <el-form-item prop="province" label="Tỉnh thành">
+                    <el-form-item prop="TenTinh" label="Tỉnh thành">
                         <el-select
-                            v-model="form.province"
+                            v-model="form.TenTinh"
                             class="w-full"
                             filterable
                             placeholder="Chọn"
@@ -262,9 +244,9 @@
                         >
                             <el-option
                                 v-for="_province in provinces"
-                                :key="_province.code"
-                                :label="_province.name"
-                                :value="_province.code"
+                                :key="_province.TenDonVi"
+                                :label="_province.TenDonVi"
+                                :value="_province.TaiKhoan.split('tk')[1]"
                             />
                         </el-select>
                     </el-form-item>
@@ -273,9 +255,9 @@
 &nbsp;
                 </el-col>
                 <el-col :span="6">
-                    <el-form-item prop="district" label="Quận / Huyện">
+                    <el-form-item prop="TenQuan" label="Quận / Huyện">
                         <el-select
-                            v-model="form.district"
+                            v-model="form.TenQuan"
                             class="w-full"
                             filterable
                             placeholder="Chọn"
@@ -294,9 +276,9 @@
 &nbsp;
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item prop="ward" label="Phường / Xã">
+                    <el-form-item prop="TenPhuong" label="Phường / Xã">
                         <el-select
-                            v-model="form.ward"
+                            v-model="form.TenPhuong"
                             class="w-full"
                             filterable
                             placeholder="Chọn"
@@ -312,22 +294,34 @@
                 </el-col>
             </el-form-item>
 
+            <el-form-item prop="MaCSCL" label="Cơ sở cách ly">
+                <el-radio-group v-model="form.MaCSCL">
+                    <el-radio
+                        v-for="_cscl in CSCL"
+                        :key="_cscl.MaCSCL"
+                        border
+                        :label="_cscl.MaCSCL"
+                    >
+                        {{ _cscl.TenCSCL }}
+                    </el-radio>
+                </el-radio-group>
+            </el-form-item>
             <el-form-item label="Đối tượng nhiễm bệnh">
-                <!-- <InfectedSubject -->
-                <!--     :infected-subject="form.infectedSubject" -->
-                <!--     :exposed-object="form.exposedObject" -->
-                <!--     :has-symptom="form.hasSymptom" -->
-                <!--     @onChangeInf="form.infectedSubject=$event" -->
-                <!--     @onChangeSymptom="form.hasSymptom=!form.hasSymptom" -->
-                <!--     @onAdd="addExposedObject" -->
-                <!--     @onRemove="removeExposedObject" -->
-                <!-- /> -->
+                <InfectedSubject
+                    ref="infectedSubject"
+                    :infected-subject="form.MaNB"
+                    :exposed-object="form.DSNguoiTX"
+                    @onChangeInf="form.MaNB=$event"
+                    @onChangeSymptom="form.hasSymptom=!form.hasSymptom"
+                    @onAdd="addExposedObject"
+                    @onRemove="removeExposedObject"
+                />
             </el-form-item>
 
             <el-form-item prop="isInjectedVaccine">
                 <InjectedVaccine
                     :is-injected-vaccine="form.isInjectedVaccine"
-                    :injected-vaccine="form.injectedVaccine"
+                    :injected-vaccine="form.DSVaccineDaTiem"
                     @onChangeIsInjected="form.isInjectedVaccine=!form.isInjectedVaccine"
                     @onAdd="addInjectedVaccine"
                     @onRemove="removeInjectedVaccine"
@@ -335,7 +329,7 @@
             </el-form-item>
 
             <div class="text-center mt-4">
-                <el-button native-type="submit" type="primary">
+                <el-button type="primary" @click="submitForm">
                     <span class="px-4">
                         Gửi tờ khai
                     </span>
@@ -349,12 +343,14 @@
     import { validPhone, validEmail } from '@/utils/form';
     import { getDistricts, getWards } from '@/api/external/address';
     import { NO } from '@/constants/infectedSubject';
-    // import InfectedSubject from './shared/InfectedSubject.vue';
+    import { createEntryForm } from '@/api/user';
+    import InfectedSubject from './shared/InfectedSubject.vue';
     import InjectedVaccine from './shared/InjectedVaccine.vue';
+    import vehicles from '@/constants/vehicles';
 
     export default {
         components: {
-            // InfectedSubject,
+            InfectedSubject,
             InjectedVaccine,
         },
 
@@ -367,14 +363,9 @@
                 type: Array,
                 required: true,
             },
-            vehicles: {
+            CSCL: {
                 type: Array,
                 required: true,
-            },
-            genders: {
-                type: Array,
-                required: true,
-
             },
         },
 
@@ -382,130 +373,129 @@
             return {
                 districts: [],
                 wards: [],
+                vehicles,
                 rules: {
-                    obj: [
+                    MaCSCL: [
+                        { required: true, message: 'Vui lòng chọn cơ sở cách ly', trigger: 'change' },
+                    ],
+                    DoiTuong: [
                         { required: true, message: 'Vui lòng chọn đối tượng', trigger: 'change' },
                     ],
-                    gate: [
-                        { required: true, message: 'Vui lòng chon cửa khẩu', trigger: 'blur' },
-                    ],
-                    name: [
+                    HoTen: [
                         { required: true, message: 'Vui lòng nhập họ tên', trigger: 'blur' },
                     ],
-                    id: [
+                    CMND: [
                         { required: true, message: 'Vui lòng nhập CCCD/CMND', trigger: 'blur' },
                     ],
-                    gender: [
+                    GioiTinh: [
                         { required: true, message: 'Vui lòng chọn giới tính', trigger: 'blur' },
                     ],
-                    birthDay: [
+                    NgaySinh: [
                         { required: true, message: 'Vui lòng nhập ngày sinh', trigger: 'blur' },
                     ],
-                    national: [
+                    QuocTich: [
                         { required: true, message: 'Vui lòng chọn quốc gia', trigger: 'blur' },
                     ],
-                    province: [
+                    TenTinh: [
                         { required: true, message: 'Vui lòng chọn tỉnh thành', trigger: 'blur' },
                     ],
-                    district: [
+                    TenQuan: [
                         { required: true, message: 'Vui lòng chọn quận/huyện', trigger: 'blur' },
                     ],
-                    ward: [
+                    TenPhuong: [
                         { required: true, message: 'vui lòng chọn phường/xã', trigger: 'blur' },
                     ],
-                    address: [
+                    SoNha: [
                         { required: true, message: 'vui lòng nhập thông tin chi tiết nơi ở', trigger: 'blur' },
                     ],
-                    phoneNumber: [
+                    SDT: [
                         { required: true, message: 'vui lòng nhập thông tin chi tiết nơi ở', trigger: 'blur' },
                         { validator: validPhone, message: 'Số điện thoại không đúng', trigger: 'blur' },
                     ],
-                    email: [
+                    Email: [
                         { required: true, message: 'vui lòng nhập thông tin chi tiết nơi ở', trigger: 'blur' },
                         { validator: validEmail, message: 'Email không đúng định dạng', trigger: 'blur' },
                     ],
-                    injectedVaccine: [
+                    isInjectedVaccine: [
                         { required: true, message: 'vui lòng chọn', trigger: 'blur' },
                     ],
-                    vehicles: [
+                    PhuongTien: [
                         { required: true, message: 'Vui lòng chọn phương tiện', trigger: 'blur' },
                     ],
-                    departureDay: [
+                    NgayKhoiHanh: [
                         { required: true, message: 'Vui lòng nhập ngày khởi hành', trigger: 'blur' },
                     ],
-                    entryDay: [
+                    NgayNhapCanh: [
                         { required: true, message: 'Vui lòng nhập ngày nhập cảnh', trigger: 'blur' },
                     ],
-                    departureLocation: [
+                    DiaDiemQGKhoiHanh: [
                         { required: true, message: 'Vui lòng chọn quốc gia khởi hành', trigger: 'blur' },
                     ],
-                    departureProvince: [
+                    DiaDiemTinhKhoiHanh: [
                         { required: true, message: 'Vui lòng chọn tỉnh khởi hành', trigger: 'blur' },
                     ],
-                    destinationLocation: [
+                    DiaDiemQGNoiDen: [
                         { required: true, message: 'Vui lòng chọn quốc gia đã đến', trigger: 'blur' },
                     ],
-                    destinationProvince: [
+                    DiaDiemTinhNoiDen: [
                         { required: true, message: 'Vui lòng chọn tỉnh đã đến', trigger: 'blur' },
                     ],
                 },
                 form: {
                     obj: '',
-                    name: '',
-                    id: '',
-                    birthDay: '',
-                    gender: '',
-                    national: '',
-                    province: '',
-                    district: '',
-                    ward: '',
-                    address: '',
-                    phoneNumber: '',
-                    email: '',
+                    MaCSCL: null,
+                    MaNB: null,
+                    HoTen: '',
+                    CMND: '',
+                    NgaySinh: '',
+                    GioiTinh: null,
+                    QuocTich: '',
+                    TenTinh: '',
+                    TenQuan: '',
+                    TenPhuong: '',
+                    SoNha: '',
+                    SDT: '',
+                    Email: '',
                     hasSymptom: false,
                     isInjectedVaccine: false,
                     infectedSubject: NO,
-                    exposedObject: [],
-                    injectedVaccine: [],
-                    vaccine: '',
-                    vehicles: '',
-                    departureDay: '',
-                    entryDay: '',
-                    departureLocation: '',
-                    departureProvince: '',
-                    destinationLocation: '',
-                    destinationProvince: '',
+                    DSNguoiTX: [],
+                    DSVaccineDaTiem: [],
+                    TrieuChung: [],
+                    PhuongTien: '',
+                    DiaDiemQGKhoiHanh: '',
+                    DiaDiemTinhKhoiHanh: '',
+                    DiaDiemQGNoiDen: '',
+                    DiaDiemTinhNoiDen: '',
                 },
             };
         },
 
         computed: {
-            gates() {
+            objects() {
                 return [
-                    { label: 'asd', value: 'asdasd' },
-                    { label: '1', value: 'asd' },
-                    { label: '2', value: '21' },
-                    { label: '3', value: 'as21' },
+                    { label: 'Chuyên gia' },
+                    { label: 'Người Việt Nam' },
                 ];
             },
 
-            objects() {
+            genders() {
                 return [
-                    { label: 'Chuyên gia', value: 0 },
-                    { label: 'Người Việt Nam', value: 1 },
+                    { label: 1, value: 'Nam' },
+                    { label: 0, value: 'Nữ' },
                 ];
             },
 
             isOtherVehicles() {
-                return this.form.vehicles === 'other';
+                return this.form.PhuongTien === 'other';
             },
 
             isVietNameseDeparture() {
-                return this.form.departureLocation === 'VN';
+                return this.form.DiaDiemQGKhoiHanh === 'Viet Nam';
             },
 
             isVietNameseDestination() {
-                return this.form.destinationLocation === 'VN';
+                return this.form.DiaDiemQGNoiDen === 'Viet Nam';
             },
         },
 
@@ -523,39 +513,59 @@
             },
 
             addExposedObject() {
-                const _objLast = this.form.exposedObject[this.form.exposedObject.length - 1];
-                if (_objLast && (!_objLast.id || !_objLast.address || !_objLast.timeMeet)) {
+                const _objLast = this.form.DSNguoiTX[this.form.DSNguoiTX.length - 1];
+                if (_objLast && (!_objLast.CMND || !_objLast.DiaDiemTX || !_objLast.ThoiGianTX)) {
                     this.$message.error('Vui lòng nhập đầy đủ thông tin người tiếp xúc đang nhập');
                     return;
                 }
 
-                this.form.exposedObject.push({
-                    id: '',
-                    address: '',
-                    timeMeet: '',
+                this.form.DSNguoiTX.push({
+                    CMND: '',
+                    DiaDiemTX: '',
+                    ThoiGianTX: '',
                 });
             },
 
             removeExposedObject(index) {
-                this.form.exposedObject.splice(index, 1);
+                this.form.DSNguoiTX.splice(index, 1);
             },
 
             addInjectedVaccine() {
-                const _vaccineLast = this.form.injectedVaccine[this.form.injectedVaccine.length - 1];
-                if (_vaccineLast && (!_vaccineLast.id || !_vaccineLast.vaccineName || !_vaccineLast.timeInjected)) {
+                const _vaccineLast = this.form.DSVaccineDaTiem[this.form.DSVaccineDaTiem.length - 1];
+                if (_vaccineLast && (!_vaccineLast.LuotTiem || !_vaccineLast.MaVaccine || !_vaccineLast.NgayTiem)) {
                     this.$message.error('Vui lòng nhập đầy đủ thông tin vaccine đã tiêm đang nhập');
                     return;
                 }
 
-                this.form.injectedVaccine.push({
-                    id: _vaccineLast?.id ? _vaccineLast.id + 1 : 1,
-                    vaccineName: '',
-                    timeInjected: '',
+                this.form.DSVaccineDaTiem.push({
+                    MaVaccine: '',
+                    LuotTiem: _vaccineLast?.LuotTiem ? _vaccineLast.LuotTiem + 1 : 1,
+                    NgayTiem: '',
                 });
             },
 
             removeInjectedVaccine(index) {
-                this.form.injectedVaccine.splice(index, 1);
+                this.form.DSVaccineDaTiem.splice(index, 1);
+            },
+
+            async submitForm() {
+                try {
+                    const MaDonVi = +this.form.TenTinh;
+                    const TenTinh = this.provinces.find((province) => province.TaiKhoan
+                        === `tk${this.form.TenTinh}`).TenDonVi;
+                    const TenQuan = this.districts.find((district) => district.code === +this.form.TenQuan).name;
+                    const TenPhuong = this.wards.find((ward) => ward.code === +this.form.TenPhuong).name;
+                    const TrieuChung = this.$refs.infectedSubject.symptom.join(',');
+
+                    const newForm = {
+                        ...this.form, MaDonVi, TenTinh, TenQuan, TenPhuong, TrieuChung,
+                    };
+                    await createEntryForm(newForm);
+                    this.$message.success('Thành công');
+                } catch (err) {
+                    console.log('err', err);
+                    this.$message.error(err.response?.data?.message || 'Có lỗi xảy ra, Vui lòng thử lại sau');
+                }
             },
         },
     };
