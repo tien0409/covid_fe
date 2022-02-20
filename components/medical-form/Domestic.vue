@@ -154,8 +154,10 @@
                     :infected-subject="form.infectedSubject"
                     :exposed-object="form.exposedObject"
                     :has-symptom="form.hasSymptom"
+                    :trieu-chung="form.TrieuChung"
+                    @
                     @onChangeInf="form.infectedSubject=$event"
-                    @onChangeSymptom="form.hasSymptom=!form.hasSymptom"
+                    @onChangeSymptom="handle"
                     @onAdd="addExposedObject"
                     @onRemove="removeExposedObject"
                 />
@@ -244,6 +246,7 @@
                     ],
                 },
                 form: {
+                    TrieuChung: [],
                     name: '',
                     id: '',
                     birthDay: '',
@@ -267,9 +270,8 @@
         computed: {
             genders() {
                 return [
-                    { label: 'man', value: 'Nam' },
-                    { label: 'woman', value: 'Nữ' },
-                    { label: 'other', value: 'Khác' },
+                    { label: 1, value: 'Nam' },
+                    { label: 0, value: 'Nữ' },
                 ];
             },
 
@@ -322,6 +324,10 @@
 
             removeInjectedVaccine(index) {
                 this.form.injectedVaccine.splice(index, 1);
+            },
+
+            handle(e) {
+                console.log('e', e);
             },
         },
     };

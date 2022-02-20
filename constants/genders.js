@@ -1,5 +1,4 @@
 export default [
-    { label: 'man', value: 'Nam' },
-    { label: 'woman', value: 'Nữ' },
-    { label: 'other', value: 'Khác' },
+    { label: 'man', value: 1 },
+    { label: 'woman', value: 0 },
 ];

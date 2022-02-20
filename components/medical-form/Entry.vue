@@ -313,15 +313,15 @@
             </el-form-item>
 
             <el-form-item label="Đối tượng nhiễm bệnh">
-                <InfectedSubject
-                    :infected-subject="form.infectedSubject"
-                    :exposed-object="form.exposedObject"
-                    :has-symptom="form.hasSymptom"
-                    @onChangeInf="form.infectedSubject=$event"
-                    @onChangeSymptom="form.hasSymptom=!form.hasSymptom"
-                    @onAdd="addExposedObject"
-                    @onRemove="removeExposedObject"
-                />
+                <!-- <InfectedSubject -->
+                <!--     :infected-subject="form.infectedSubject" -->
+                <!--     :exposed-object="form.exposedObject" -->
+                <!--     :has-symptom="form.hasSymptom" -->
+                <!--     @onChangeInf="form.infectedSubject=$event" -->
+                <!--     @onChangeSymptom="form.hasSymptom=!form.hasSymptom" -->
+                <!--     @onAdd="addExposedObject" -->
+                <!--     @onRemove="removeExposedObject" -->
+                <!-- /> -->
             </el-form-item>
 
             <el-form-item prop="isInjectedVaccine">
@@ -349,11 +349,14 @@
     import { validPhone, validEmail } from '@/utils/form';
     import { getDistricts, getWards } from '@/api/external/address';
     import { NO } from '@/constants/infectedSubject';
-    import InfectedSubject from './shared/InfectedSubject.vue';
+    // import InfectedSubject from './shared/InfectedSubject.vue';
     import InjectedVaccine from './shared/InjectedVaccine.vue';
 
     export default {
-        components: { InfectedSubject, InjectedVaccine },
+        components: {
+            // InfectedSubject,
+            InjectedVaccine,
+        },
 
         props: {
             provinces: {

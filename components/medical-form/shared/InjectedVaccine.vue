@@ -26,14 +26,14 @@
                 <el-row v-for="(_obj, _index) in injectedVaccine" :key="_index" class="mb-3">
                     <el-col :span="5">
                         <h3>
-                            Lần tiêm thứ {{ _obj.id }}
+                            Lần tiêm thứ {{ _obj.LuotTiem }}
                         </h3>
                     </el-col>
                     <el-col :span="1">
             &nbsp;
                     </el-col>
                     <el-col :span="5">
-                        <el-select v-model="_obj.vaccineName">
+                        <el-select v-model="_obj.MaVaccine">
                             <el-option
                                 v-for="_vaccine in vaccines"
                                 :key="_vaccine.MaVaccine"
@@ -46,7 +46,12 @@
             &nbsp;
                     </el-col>
                     <el-col :span="5">
-                        <el-date-picker v-model="_obj.timeInjected" type="date" placeholder="Ngày tiêm" />
+                        <el-date-picker
+                            v-model="_obj.NgayTiem"
+                            value-format="MM-dd-yyyy"
+                            type="date"
+                            placeholder="Ngày tiêm"
+                        />
                     </el-col>
                     <el-col :span="1">
             &nbsp;

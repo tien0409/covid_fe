@@ -29,7 +29,7 @@
     import MedicalFormNational from '@/components/medical-form/National.vue';
     import MedicalFormDomestic from '@/components/medical-form/Domestic.vue';
     import MedicalFormEntry from '@/components/medical-form/Entry.vue';
-    import { getProvinces } from '@/api/external/address';
+    import { getProvinces } from '@/api/default';
     import national from '@/constants/national';
     import vehicles from '@/constants/vehicles';
     import genders from '@/constants/genders';
@@ -42,10 +42,10 @@
         },
 
         async asyncData() {
-            const res = await getProvinces();
+            const { data: { provinces } } = await getProvinces();
 
             return {
-                provinces: res,
+                provinces,
             };
         },
 
