@@ -3,14 +3,15 @@
         <el-menu-item index="/home">
             Khai báo
         </el-menu-item>
-        <el-menu-item index="/information">
+        <el-menu-item index="/update-form">
+            Chỉnh sửa phiếu khai báo
+        </el-menu-item>
+        <el-menu-item index="/update-form">
+            Lịch sử khai báo
+        </el-menu-item>
+        <el-menu-item v-if="loggedIn" index="/admin/vaccines">
             Thông tin dịch bệnh
         </el-menu-item>
-        <div v-if="loggedIn">
-            <el-menu-item index="/admin/vaccines">
-                Thông tin dịch bệnh
-            </el-menu-item>
-        </div>
     </el-menu>
 </template>
 

@@ -26,6 +26,7 @@ export default {
     plugins: [
         '@/plugins/axios',
         '@/plugins/element-ui',
+        '@/plugins/filters',
     ],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
@@ -55,7 +56,7 @@ export default {
     auth: {
         plugins: [{ src: '@/plugins/axios.js', ssr: true }],
         redirect: {
-            login: '/admin/login',
+            login: '/login',
             home: '/admin',
         },
         strategies: {

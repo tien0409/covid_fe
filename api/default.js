@@ -9,6 +9,12 @@ export const createVaccine = (body) => axios.post(`${BASE_URL}/vaccines`, body).
 export const removeVaccine = (id) => axios.delete(`${BASE_URL}/vaccines/${id}`).then((_) => _.data);
 
 export const getInfectedSubject = () => axios.get(`${BASE_URL}/infected-subject`).then((_) => _.data);
+
 export const getSymptoms = () => axios.get(`${BASE_URL}/infected-subject/symptoms`).then((_) => _.data);
+export const getSymptom = (id) => axios.get(`${BASE_URL}/infected-subject/symptoms/${id}`).then((_) => _.data);
+export const removeSymptom = (id) => axios.delete(`${BASE_URL}/infected-subject/symptoms/${id}`).then((_) => _.data);
+export const updateSymptom = (id, body) => axios.put(`${BASE_URL}/infected-subject/symptoms/${id}`, body).then((_) => _.data);
+export const createSymptom = (body) => axios.post(`${BASE_URL}/infected-subject/symptoms`, body).then((_) => _.data);
+
 export const getProvinces = () => axios.get(`${BASE_URL}/provinces`).then((_) => _.data);
 export const getCSCL = () => axios.get(`${BASE_URL}/infected-subject/cscl`).then((_) => _.data);

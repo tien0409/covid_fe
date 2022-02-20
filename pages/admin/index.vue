@@ -8,7 +8,7 @@
     export default {
         async asyncData({ store, redirect }) {
             if (!store.$auth.loggedIn) {
-                redirect('/admin/login');
+                redirect('/login');
             }
         },
 
