@@ -1,34 +1,22 @@
-import axios from 'axios';
+let client;
 
-// const getCookie = (name) => {
-//     const value = `; ${document.cookie}`;
-//     const parts = value.split(`; ${name}=`);
-//     if (parts.length === 2) {
-//         return parts.pop().split(';').shift();
-//     }
-//
-//     return '';
-// };
+export function setClient(newClient) {
+    client = newClient;
+}
 
-const createAxios = (apiHost) => {
-    const baseURL = apiHost;
-    const _axios = axios.create({
-        baseURL,
-        headers: {
-            'content-type': 'application/json',
-        },
-    });
+const _reqMethods = [
+    'request', 'delete', 'get', 'head', 'options',
+    'post', 'put', 'patch', 'setBaseURL', 'create',
+];
 
-    //     if (process.browser === true) {
-    //         const token = getCookie('auth._token.local');
-    //         _axios.interceptors.request.use((config) => {
-    //             config.headers.Authorization = decodeURI(token);
-    //
-    //             return config;
-    //         });
-    //     }
+const axios = {};
 
-    return _axios;
-};
+_reqMethods.forEach((_method) => {
+    axios[_method] = function () {
+        if (!client) throw new Error('apiClient not installed');
+        // eslint-disable-next-line
+        return client[_method].apply(null, arguments);
+    };
+});
 
-export default createAxios;
+export default axios;

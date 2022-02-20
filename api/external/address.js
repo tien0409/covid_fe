@@ -1,9 +1,9 @@
-import createAxios from '@/libs/axios';
+import axios from '@/libs/axios';
 
-const axios = createAxios('https://provinces.open-api.vn/api');
+const BASE_URL = 'https://provinces.open-api.vn/api';
 
-export const getProvinces = () => axios.get('/p').then((_) => _.data);
-export const getDistricts = (provinceCode) => axios.get(`/p/${provinceCode}`, { params: { depth: 2 } })
+export const getProvinces = () => axios.get(`${BASE_URL}/p`).then((_) => _.data);
+export const getDistricts = (provinceCode) => axios.get(`${BASE_URL}/p/${provinceCode}`, { params: { depth: 2 } })
     .then((_) => _.data);
-export const getWards = (districtCode) => axios.get(`d/${districtCode}`, { params: { depth: 2 } })
+export const getWards = (districtCode) => axios.get(`${BASE_URL}/d/${districtCode}`, { params: { depth: 2 } })
     .then((_) => _.data);
